@@ -7,3 +7,4 @@ Start day: 25/04/2024
 
 * [SQL queries](/SQL_Projects_Portfolio)
 * [PowerBI and Tableau Visuals](/PowerBI_and_Tableau_Visuals)
+* [Python Codes](/Pthon_Analytics_Projects)
