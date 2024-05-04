@@ -1,1 +1,0 @@
-/* Performing tasks from companies*/
