@@ -1,3 +1,8 @@
+/* Skills used: 
+-- SQL: Data retrieval, aggregation, and manipulation.
+-- Data Analysis: Customer segmentation, descriptive analytics.
+-- Loyalty Program Analysis: Calculating points, assessing program effectiveness.*/
+
 /* --------------------
    Case Study Questions
    --------------------*/
@@ -123,3 +128,31 @@ WHERE sales.order_date >= members.join_date  -- Only consider purchases after jo
 GROUP BY sales.customer_id;
 
 
+/* How this can answer business problems or help a business out:
+
+-- Danny can draw several conclusions that can help him make informed decisions for Danny's Diner:
+
+---- Customer Spending Behavior:
+Danny can identify high-spending customers and tailor special promotions or loyalty rewards to retain their business. 
+He can also analyze spending trends to optimize menu offerings and pricing strategies.
+
+---- Customer Visitation Patterns:
+Understanding how frequently customers visit the restaurant allows Danny to gauge customer loyalty and satisfaction. 
+He can identify loyal customers and incentivize repeat visits through targeted marketing campaigns or loyalty programs.
+
+---- Customer Preferences:
+By analyzing the first items purchased by each customer and the most purchased items overall, Danny can gain insights 
+into customer preferences. This information can guide menu planning and help Danny optimize his offerings to cater to 
+popular tastes.
+
+---- Effectiveness of Membership and Loyalty Programs:
+Danny can assess the impact of the existing membership and loyalty programs by analyzing pre- and post-membership 
+spending behavior. This analysis can help him determine whether to expand the programs or adjust their features to 
+better meet customer needs.
+
+---- Promotional Effectiveness:
+Analyzing the total points earned by customers, especially during promotional periods, allows Danny to evaluate the 
+effectiveness of marketing initiatives. He can identify which promotions drive the most engagement and adjust future 
+marketing strategies accordingly.
+
+*/
