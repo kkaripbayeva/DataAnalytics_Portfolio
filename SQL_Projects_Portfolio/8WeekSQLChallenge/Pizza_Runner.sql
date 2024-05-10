@@ -40,6 +40,7 @@ Skills used:
 -- 5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
 ---- * For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
 -- 6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+
    ------D. Pricing and Ratings------
 -- 1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?
 -- 2. What if there was an additional $1 charge for any pizza extras?
@@ -57,6 +58,7 @@ Skills used:
 ---- * Average speed
 ---- * Total number of pizzas
 -- 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
+
    ------E. Bonus Questions------
 -- 1. If Danny wants to expand his range of pizzas - how would this impact the existing data design? Write an INSERT statement to demonstrate what would happen if a new Supreme pizza with all the toppings was added to the Pizza Runner menu?
 */
@@ -94,6 +96,7 @@ ALTER COLUMN duration TYPE NUMERIC USING
     CASE WHEN duration = 'null' THEN NULL ELSE REPLACE(REPLACE(REPLACE(duration,'mins',''),'minutes',''),'minute','')::NUMERIC END,
 ALTER COLUMN cancellation TYPE VARCHAR(23) USING 
     CASE WHEN cancellation = 'null' THEN NULL ELSE cancellation END;
+
 -- SET A:
 
 -- Total pizzas ordered:
@@ -164,6 +167,72 @@ ORDER BY ord_time;
 SELECT DATE_PART('dow', order_time) AS ord_time, COUNT(pizza_id) AS total_pizzas FROM pizza_runner.customer_orders AS customer
 GROUP BY ord_time
 ORDER BY ord_time;
+
+-- SET B:
+
+-- 1 week period
+SELECT DATE_TRUNC('week', registration_date) AS week_start,
+    COUNT(*) AS num_runners_signed_up
+FROM pizza_runner.runners
+GROUP BY week_start
+ORDER BY week_start;
+
+-- Average arrival time
+SELECT runner_id,
+    AVG(EXTRACT(EPOCH FROM pickup_time - order_time) / 60) AS avg_pickup_time_minutes
+FROM pizza_runner.runner_orders AS runner
+JOIN pizza_runner.customer_orders AS customer
+ON runner.order_id = customer.order_id
+WHERE pickup_time IS NOT NULL
+GROUP BY runner_id;
+
+-- Number of pizza VS preparation time
+SELECT num_pizzas_ordered,
+    AVG(avg_preparation_time_minutes) AS avg_preparation_time_minutes
+FROM (SELECT COUNT(*) AS num_pizzas_ordered,
+        AVG(EXTRACT(EPOCH FROM pickup_time - order_time) / 60) AS avg_preparation_time_minutes
+    FROM pizza_runner.customer_orders co
+    JOIN pizza_runner.runner_orders ro 
+      ON co.order_id = ro.order_id
+    WHERE ro.cancellation IS NULL
+    GROUP BY co.order_id
+) AS subquery
+GROUP BY num_pizzas_ordered;
+
+
+-- Average distance
+SELECT co.customer_id,
+    AVG(ro.distance) AS avg_distance_traveled_km
+FROM pizza_runner.runner_orders ro
+JOIN pizza_runner.customer_orders co 
+	ON ro.order_id = co.order_id
+GROUP BY co.customer_id;
+
+
+-- Difference between max and min delivery time
+SELECT 
+    MAX(EXTRACT(EPOCH FROM pickup_time - order_time)) - MIN(EXTRACT(EPOCH FROM pickup_time - order_time)) AS time_difference_seconds
+FROM 
+    pizza_runner.runner_orders ro
+JOIN pizza_runner.customer_orders co
+ON ro.order_id = co.order_id    
+WHERE pickup_time IS NOT NULL;
+
+-- Average speed for each runner
+SELECT ro.runner_id,
+    ro.order_id,
+    AVG(ro.distance::FLOAT / EXTRACT(EPOCH FROM (ro.pickup_time - co.order_time)) / 3600) AS avg_speed_kmh
+FROM pizza_runner.runner_orders ro
+JOIN pizza_runner.customer_orders co 
+	ON ro.order_id = co.order_id
+WHERE ro.pickup_time IS NOT NULL
+GROUP BY ro.runner_id, ro.order_id;
+
+--Successful delivery percentage
+SELECT runner_id,
+    COUNT(*) FILTER (WHERE cancellation IS NULL) * 100.0 / COUNT(*) AS successful_delivery_percentage
+FROM pizza_runner.runner_orders
+GROUP BY runner_id;
 
 
 
