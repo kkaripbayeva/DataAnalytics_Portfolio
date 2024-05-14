@@ -136,6 +136,6 @@ Rank customer products, providing null ranking values for records when customers
 
 You can use the embedded DB Fiddle below to easily access these example datasets. This interactive session has everything you need to start solving these questions using SQL.
 
-[SQL Challenge(https://8weeksqlchallenge.com/case-study-1/)
+[SQL Challenge](https://8weeksqlchallenge.com/case-study-1/)
 
 ---
