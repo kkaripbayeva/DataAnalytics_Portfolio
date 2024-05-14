@@ -23,33 +23,6 @@ Here, I present my solutions to the SQL challenge. Each solution is organized by
 
 I would like to extend my heartfelt thanks to [Data With Danny](https://www.linkedin.com/company/datawithdanny/) for creating and sharing this incredible SQL challenge. The questions have been both challenging and insightful, greatly contributing to my learning experience.
 
-SQL_Projects_Portfolio/
-├── week1/
-│ ├── README.md
-│ ├── Dannys_diner.sql
-├── week2/
-│ ├── README.md
-│ ├── Pizza_Runner.sql
-├── week3/
-│ ├── README.md
-│ ├── solution.sql
-├── week4/
-│ ├── README.md
-│ ├── solution.sql
-├── week5/
-│ ├── README.md
-│ ├── solution.sql
-├── week6/
-│ ├── README.md
-│ ├── solution.sql
-├── week7/
-│ ├── README.md
-│ ├── solution.sql
-├── week8/
-│ ├── README.md
-│ ├── solution.sql
-└── README.md
-
 
 ## How to Use
 
