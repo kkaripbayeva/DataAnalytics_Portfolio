@@ -235,5 +235,45 @@ FROM pizza_runner.runner_orders
 GROUP BY runner_id;
 
 
+-- SET C:
+
+-- Standard ingredients
+SELECT pizza_name, topping_name 
+FROM pizza_runner.pizza_names AS name
+JOIN pizza_runner.pizza_recipes AS recipes
+ON name.pizza_id = recipes.pizza_id
+JOIN pizza_runner.pizza_toppings AS toppings
+ON recipes.toppings LIKE '%' || toppings.topping_id || '%'
+ORDER BY pizza_name, topping_name
+
+-- Most commonly added extra:
+WITH extra AS (
+    SELECT customer_id, UNNEST(extras)::INTEGER AS specific_extra  
+    FROM pizza_runner.customer_orders
+    WHERE extras IS NOT NULL
+)
+SELECT topping_name, COUNT(*) AS count 
+FROM extra 
+JOIN pizza_runner.pizza_toppings AS top
+ON extra.specific_extra = top.topping_id
+GROUP BY topping_name
+ORDER BY count DESC
+LIMIT 1;
+
+-- Most common exclusion:
+WITH excl AS (
+    SELECT customer_id, UNNEST(exclusions)::INTEGER AS specific_excl  
+    FROM pizza_runner.customer_orders
+    WHERE exclusions IS NOT NULL
+)
+SELECT topping_name, COUNT(*) AS count 
+FROM excl 
+JOIN pizza_runner.pizza_toppings AS top
+ON excl.specific_excl = top.topping_id
+GROUP BY topping_name
+ORDER BY count DESC
+LIMIT 1;
+
+
 
 
