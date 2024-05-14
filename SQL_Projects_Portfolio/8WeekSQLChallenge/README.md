@@ -10,8 +10,8 @@ The 8-week SQL challenge by Data With Danny is designed to enhance SQL skills th
 
 Here, I present my solutions to the SQL challenge. Each solution is organized by week, with detailed explanations and SQL queries provided.
 
-- **Week 1:** [Link to Week 1 Solution](./week1)
-- **Week 2:** [Link to Week 2 Solution](./week2)
+- **Week 1:** [Link to Week 1 Solution](./week1) - Completed 09/05/2024
+- **Week 2:** [Link to Week 2 Solution](./week2) - In process...
 - **Week 3:** [Link to Week 3 Solution](./week3)
 - **Week 4:** [Link to Week 4 Solution](./week4)
 - **Week 5:** [Link to Week 5 Solution](./week5)
