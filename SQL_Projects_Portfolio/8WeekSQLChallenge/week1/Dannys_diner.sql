@@ -127,6 +127,30 @@ WHERE sales.order_date >= members.join_date  -- Only consider purchases after jo
     AND EXTRACT(MONTH FROM sales.order_date) = 1  -- Only consider January
 GROUP BY sales.customer_id;
 
+-- Bonus Questions
+
+-- Join All The Things
+
+SELECT sales.customer_id AS customer_id, order_date, product_name, price, CASE WHEN order_date >= join_date THEN 'Y' ELSE 'N' END AS member 
+FROM dannys_diner.sales AS sales
+JOIN dannys_diner.menu AS menu
+ON sales.product_id = menu.product_id
+FULL JOIN dannys_diner.members AS members
+ON sales.customer_id = members.customer_id
+ORDER BY customer_id, order_date
+
+-- Rank All The Things
+
+WITH full_join AS (SELECT sales.customer_id AS customer_id, order_date, product_name, price, CASE WHEN order_date >= join_date THEN 'Y' ELSE 'N' END AS member 
+FROM dannys_diner.sales AS sales
+JOIN dannys_diner.menu AS menu
+ON sales.product_id = menu.product_id
+FULL JOIN dannys_diner.members AS members
+ON sales.customer_id = members.customer_id)
+SELECT customer_id, order_date, product_name, price, member, CASE WHEN member = 'Y' THEN RANK() OVER (PARTITION BY customer_id ORDER BY order_date) ELSE NULL END AS ranking
+FROM full_join
+ORDER BY customer_id, order_date
+
 
 /* How this can answer business problems or help a business out:
 
